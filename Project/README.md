@@ -9,4 +9,4 @@ Matrix Multiplication Kernel
 
 ### (TODO: Your README)
 
-Include analysis, etc.
+Include comments and analysis, etc.
