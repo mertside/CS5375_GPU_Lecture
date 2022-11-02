@@ -11,6 +11,8 @@
  */
 
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 // ------------------------------------------------------------------ CPUmatmul
 void CPUmatmul(int N, double *x, double *y, double *ans)

@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 // ------------------------------------------------------------------ GPUmatmul
 __global__
 void GPUmatmul(int N, double *x, double *y, double *ans)
