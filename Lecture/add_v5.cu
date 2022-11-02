@@ -13,7 +13,8 @@
 #include <math.h>
 
 // CUDA kernel to initialize elements of two arrays
-__global__ void init(int n, float *x, float *y) 
+__global__ 
+void init(int n, float *x, float *y) 
 {
   int index = threadIdx.x + blockIdx.x * blockDim.x;
   int stride = blockDim.x * gridDim.x;

@@ -11,15 +11,18 @@
  */
 
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+
 
 // ------------------------------------------------------------------ GPUmatmul
 __global__
 void GPUmatmul(int N, double *x, double *y, double *ans)
 {
-  for(int i=0; i < N; i++) {
-    for(int j=0; j < N; j++) {
-      for(int k=0; k < N; k++) {
-        ans[i*N+j] += (x[i*N+k]*y[k*N+j]);
+  for(int i = 0; i < N; i++) {
+    for(int j = 0; j < N; j++) {
+      for(int k = 0; k < N; k++) {
+        ans[i*N+j] += (x[i*N+k] * y[k*N+j]);
       }
     }
   }
@@ -28,9 +31,9 @@ void GPUmatmul(int N, double *x, double *y, double *ans)
 // ---------------------------------------------------------------------- check
 bool check(int N, double *ans)
 {
-  for(int i=0; i < N; i++) {
-    for(int j=0; j < N; j++) {
-      if(ans[i*N+j]!=20.0)return false;
+  for(int i = 0; i < N; i++) {
+    for(int j = 0; j < N; j++) {
+      if(ans[i*N+j] != 20.0) return false;
     }
   }
   return true;
@@ -39,21 +42,24 @@ bool check(int N, double *ans)
 // ----------------------------------------------------------------------- MAIN
 int main(void)
 {
-  //size of matrix
-  int N = 1<<9;
+  // size of matrix
+  int N = 1<<9; // binary left-shift: 1 * 2^9 = 512
+  printf("Size of matrix (N) is %d by %d.\n", N, N);
   int iter = 3;
   clock_t t;
+  
+  // Martices
   double *x, *y, *ans;
 
-  // Allocate Unified Memory - accessible from CPU or GPU
-  cudaMallocManaged(&x, N*N*sizeof(double));
-  cudaMallocManaged(&y, N*N*sizeof(double));
-  cudaMallocManaged(&ans, N*N*sizeof(double));
+  // TODO: Allocate Unified Memory - accessible from both CPU and GPU
+  // ...
+  // ...
+  // ...
 
   // ..........................................................................
   // initialize x,y and ans arrays on the host
-  for (int i=0; i < N; i++) {
-    for(int j=0; j < N; j++) {
+  for (int i = 0; i < N; i++) {
+    for(int j = 0; j < N; j++) {
       x[i*N+j] = 5;
       y[i*N+j] = (i==j?1:0);
       ans[i*N+j] = (double)0.000000000000;
@@ -64,7 +70,7 @@ int main(void)
   double avg=0;
   std::cout<<"Starting unoptimized GPU computation"<<std::endl;
   // Run kernel on GPU
-  for(int i=0; i <= iter; i++) {
+  for(int i = 0; i <= iter; i++) {
     t = clock();
     GPUmatmul<<<1,1>>>(N, x, y,ans);
     cudaDeviceSynchronize();
@@ -76,14 +82,17 @@ int main(void)
   avg /= iter;
   avg /= CLOCKS_PER_SEC;
   avg *= 1000;
-  printf ("It took %lf ms on avg.\n",avg);
+  printf("It took %lf ms on avg.\n", avg);
   if(check(N,ans)) std::cout<<"RUN OK."<<std::endl;
   else std::cout<<"RUN NOT OK."<<std::endl;
 
   // ..........................................................................
-  // Free memory
-  cudaFree(x);
-  cudaFree(y); 
+  
+  // TODO: Free memory
+  // ...
+  // ...
+  // ...
+
   return 0;
 }
 /* EOF */
